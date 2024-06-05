@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function AddBeerPage() {
@@ -27,6 +28,34 @@ function AddBeerPage() {
   // 1. Create a function to handle the form submission and send the form data to the Beers API to create a new beer.
   // 2. Use axios to make a POST request to the Beers API.
   // 3. Once the beer is created, navigate the user to the page showing the list of all beers.
+  const handleCreateBeer = async (event) => {
+    event.preventDefault();
+    const newBeer = {
+      name,
+      tagline,
+      description,
+      image_url: imageUrl,
+      first_brewed: firstBrewed,
+      brewers_tips: brewersTips,
+      attenuation_level: Number(attenuationLevel),
+      contributed_by: contributedBy,
+    };
+  //   const response = await axios("https://ih-beers-api2.herokuapp.com/beers/new", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(newBeer),
+  //   });
+  //   const data = await response.json();
+  //   console.log("here is the data from fetch", data);
+  //  };  
+  try {
+    await axios.post("https://ih-beers-api2.herokuapp.com/beers/new", newBeer);
+  } catch (error) {
+    console.log("Error creating new beer:", error);
+  }
+  }
 
 
 
@@ -34,7 +63,7 @@ function AddBeerPage() {
   return (
     <>
       <div className="d-inline-flex flex-column w-100 p-4">
-        <form>
+        <form on onSubmit={handleCreateBeer}>
           <label>Name</label>
           <input
             className="form-control mb-4"

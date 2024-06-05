@@ -9,13 +9,25 @@ function RandomBeersPage() {
 
   // React Router hook for navigation. We use it for the back button. You can leave this as it is.
   const navigate = useNavigate();
-
-
   
   // TASKS:
   // 1. Set up an effect hook to make a request for a random beer from the Beers API.
   // 2. Use axios to make a HTTP request.
   // 3. Use the response data from the Beers API to update the state variable.
+  useEffect(() => {
+    const fetchRandomBeer = async () => {
+      try {
+        const { data } = await axios("https://ih-beers-api2.herokuapp.com/beers/:id");
+        setRandomBeer(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchRandomBeer();
+  }, []);
+  if (!randomBeer) {
+    return <p>loading...</p>;
+  }
 
 
 
