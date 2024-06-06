@@ -6,7 +6,7 @@ import axios from "axios";
 
 function BeerDetailsPage() {
   // Mock initial state, to be replaced by data from the Beers API. Store the beer info retrieved from the Beers API in this state variable.
-  const [beer, setBeer] = useState(beersJSON[0]);
+  const [beer, setBeer] = useState(null);
 
   // React Router hook for navigation. We use it for the back button. You can leave this as it is.
   const navigate = useNavigate();
@@ -21,8 +21,14 @@ function BeerDetailsPage() {
   useEffect(() => {
     const fetchBeer = async () => {
       try {
-        const { data } = await axios("https://ih-beers-api2.herokuapp.com/beers/:id");
+        const { data } = await axios(`https://ih-beers-api2.herokuapp.com/beers/${beerId}`);
         setBeer(data);
+          const beersWithImages = data.map((oneBeer) => {
+        oneBeer.image_url =
+          "https://images.unsplash.com/photo-1436076863939-06870fe779c2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        return oneBeer;
+      });
+      setBeer(beersWithImages);
       } catch (error) {
         console.log(error);
       }
@@ -40,12 +46,12 @@ function BeerDetailsPage() {
     <div className="d-inline-flex flex-column justify-content-center align-items-center w-100 p-4">
       {beer && (
         <>
-          {/* <img
+          <img
             src={beer.image_url}
             alt="Beer Image"
             height="300px"
             width="auto"
-          /> */}
+          />
           <h3>{beer.name}</h3>
           <p>{beer.tagline}</p>
           <p>Attenuation level: {beer.attenuation_level}</p>

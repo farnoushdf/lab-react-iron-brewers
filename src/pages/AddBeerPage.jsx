@@ -36,8 +36,8 @@ function AddBeerPage() {
       description,
       image_url: imageUrl,
       first_brewed: firstBrewed,
-      brewers_tips: brewersTips,
-      attenuation_level: Number(attenuationLevel),
+      brewer_tips: brewersTips,
+      attenuation_level: attenuationLevel,
       contributed_by: contributedBy,
     };
   //   const response = await axios("https://ih-beers-api2.herokuapp.com/beers/new", {
@@ -51,9 +51,13 @@ function AddBeerPage() {
   //   console.log("here is the data from fetch", data);
   //  };  
   try {
-    await axios.post("https://ih-beers-api2.herokuapp.com/beers/new", newBeer);
+    const { data } = await axios.post(
+      "https://ih-beers-api2.herokuapp.com/beers/new",
+      myNewBeer
+    );
+    console.log(data);
   } catch (error) {
-    console.log("Error creating new beer:", error);
+    console.log(error);
   }
   }
 
@@ -63,7 +67,7 @@ function AddBeerPage() {
   return (
     <>
       <div className="d-inline-flex flex-column w-100 p-4">
-        <form on onSubmit={handleCreateBeer}>
+        <form onSubmit={handleCreateBeer}>
           <label>Name</label>
           <input
             className="form-control mb-4"
